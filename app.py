@@ -1,7 +1,23 @@
-﻿import streamlit as st
+import streamlit as st
+import base64
 
 # 1. ضبط الصفحة لتوسيط العناصر وإخفاء القوائم الزائدة
 st.set_page_config(layout="centered", initial_sidebar_state="collapsed")
+
+# دالة لتحويل الملفات المحلية المرفوعة إلى صيغة تدعمها لغة HTML داخل ستريمليت
+def get_base64_file(file_path):
+    with open(file_path, "rb") as f:
+        data = f.read()
+    return base64.b64encode(data).decode()
+
+# قراءة ملفاتك المحلية المرفوعة (تأكد أن الأسماء مطابقة تماماً لصورتك)
+try:
+    video_base64 = get_base64_file("butterflies.mp4.MP4")
+    img_base64 = get_base64_file("my-project.png")
+except FileNotFoundError as e:
+    st.error(f"تأكد من وجود الملفات بالأسماء الصحيحة في المستودع: {e}")
+    video_base64 = ""
+    img_base64 = ""
 
 # 2. كود التنسيق المزدوج + تحريك الزر ليسار حافة الصورة
 st.markdown("""
@@ -89,19 +105,19 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # 3. تشغيل فيديو الفراشات في الخلفية الكاملة للموقع (خارج الصورة)
-st.markdown("""
+st.markdown(f"""
 <video autoplay loop muted playsinline class="background-video">
-    <source src="https://raw.githubusercontent.com/datmanan-debug/my-streamlit-site/main/butterflies.mp4.MP4" type="video/mp4">
+    <source src="data:video/mp4;base64,{video_base64}" type="video/mp4">
 </video>
 """, unsafe_allow_html=True)
 
 # 4. تشغيل الفيديو ودمجه داخل إطار صورتك my-project.png
-st.markdown("""
+st.markdown(f"""
 <div class="showcase-container">
     <video autoplay loop muted playsinline>
-        <source src="https://raw.githubusercontent.com/datmanan-debug/my-streamlit-site/main/butterflies.mp4.MP4" type="video/mp4">
+        <source src="data:video/mp4;base64,{video_base64}" type="video/mp4">
     </video>
-    <img src="https://raw.githubusercontent.com/datmanan-debug/my-streamlit-site/main/my-project.png">
+    <img src="data:image/png;base64,{img_base64}">
 </div>
 """, unsafe_allow_html=True)
 
