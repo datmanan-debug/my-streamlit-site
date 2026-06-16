@@ -19,7 +19,7 @@ except FileNotFoundError as e:
     video_base64 = ""
     img_base64 = ""
 
-# 2. كود التنسيق المزدوج + تحريك الزر ليسار حافة الصورة
+# 2. كود التنسيق المزدوج + تحريك الزر ليمين حافة الصورة
 st.markdown("""
     <style>
     /* جعل طبقات ستريمليت شفافة لتظهر الخلفية الخارجية */
@@ -79,7 +79,7 @@ st.markdown("""
         mix-blend-mode: multiply;
     }
 
-    /* تنسيق زر Next الوردي ليكون على جهة اليسار تلقائياً */
+    /* تنسيق زر Next الوردي ليكون على جهة اليمين تلقائياً */
     div.stButton > button:first-child {
         background-color: #E91E63;
         color: white;
@@ -93,7 +93,7 @@ st.markdown("""
         position: relative;
         z-index: 10;
         display: block;
-        margin: 0 auto 0 0; /* هذا السطر السحري يدفع الزر لأقصى اليسار تماماً */
+        margin: 0 0 0 auto; /* تم التعديل هنا ليدفع الزر لأقصى اليمين تماماً */
     }
     div.stButton > button:first-child:hover {
         background-color: #C2185B;
@@ -121,6 +121,6 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-# 5. عرض زر Next المطور والمحاذي لليسار
-if st.button("⬅️ Next"):
+# 5. عرض زر Next المطور والمحاذي لليمين (تم تغيير السهم أيضاً ليتجه لليمين)
+if st.button("Next ➡️"):
     pass
