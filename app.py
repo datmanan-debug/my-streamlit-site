@@ -10,7 +10,7 @@ def get_base64_file(file_path):
         data = f.read()
     return base64.b64encode(data).decode()
 
-# قراءة ملفاتك المحلية المرفوعة (تأكد أن الأسماء مطابقة تماماً لصورتك)
+# قراءة ملفاتك المحلية المرفوعة
 try:
     video_base64 = get_base64_file("butterflies.mp4.MP4")
     img_base64 = get_base64_file("my-project.png")
@@ -19,7 +19,7 @@ except FileNotFoundError as e:
     video_base64 = ""
     img_base64 = ""
 
-# 2. كود التنسيق المزدوج + تحريك الزر ليمين حافة الصورة
+# 2. كود التنسيق المزدوج + إجبار حاوية الزر على المحاذاة لليمين
 st.markdown("""
     <style>
     /* جعل طبقات ستريمليت شفافة لتظهر الخلفية الخارجية */
@@ -32,7 +32,7 @@ st.markdown("""
         padding-bottom: 1rem !important;
     }
     
-    /* 1. فيديو الخلفية الخارجية (خارج إطار الصورة) */
+    /* 1. فيديو الخلفية الخارجية */
     .background-video {
         position: fixed;
         right: 0;
@@ -58,7 +58,7 @@ st.markdown("""
         z-index: 10;
     }
     
-    /* 2. فيديو الخلفية الداخلية (يتحرك داخل تفاصيل الصورة) */
+    /* 2. فيديو الخلفية الداخلية */
     .showcase-container video {
         position: absolute;
         top: 0;
@@ -79,32 +79,37 @@ st.markdown("""
         mix-blend-mode: multiply;
     }
 
-    /* تنسيق زر Next الوردي ليكون على جهة اليمين تلقائياً */
+    /* إجبار الحاوية التي تحتوي على الزر على محاذاة عناصرها لليمين تماماً */
+    [data-testid="stButton"] {
+        display: flex !important;
+        justify-content: flex-end !important;
+        width: 100% !important;
+    }
+
+    /* تنسيق زر Next الوردي */
     div.stButton > button:first-child {
-        background-color: #E91E63;
-        color: white;
-        font-size: 20px;
-        font-weight: bold;
-        padding: 12px 45px;
-        border-radius: 30px;
-        border: none;
-        box-shadow: 0px 5px 15px rgba(233, 30, 99, 0.4);
-        transition: 0.3s;
-        position: relative;
-        z-index: 10;
-        display: block;
-        margin: 0 0 0 auto; /* تم التعديل هنا ليدفع الزر لأقصى اليمين تماماً */
+        background-color: #E91E63 !important;
+        color: white !important;
+        font-size: 20px !important;
+        font-weight: bold !important;
+        padding: 12px 45px !important;
+        border-radius: 30px !important;
+        border: none !important;
+        box-shadow: 0px 5px 15px rgba(233, 30, 99, 0.4) !important;
+        transition: 0.3s !important;
+        position: relative !important;
+        z-index: 10 !important;
+        margin: 0 !important; /* نترك التحكم للـ Flexbox الخارجي */
     }
     div.stButton > button:first-child:hover {
-        background-color: #C2185B;
-        color: white;
-        box-shadow: 0px 8px 20px rgba(194, 24, 91, 0.6);
-        transform: translateY(-2px);
+        background-color: #C2185B !important;
+        box-shadow: 0px 8px 20px rgba(194, 24, 91, 0.6) !important;
+        transform: translateY(-2px) !important;
     }
     </style>
 """, unsafe_allow_html=True)
 
-# 3. تشغيل فيديو الفراشات في الخلفية الكاملة للموقع (خارج الصورة)
+# 3. تشغيل فيديو الفراشات في الخلفية الكاملة للموقع
 st.markdown(f"""
 <video autoplay loop muted playsinline class="background-video">
     <source src="data:video/mp4;base64,{video_base64}" type="video/mp4">
@@ -121,6 +126,6 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-# 5. عرض زر Next المطور والمحاذي لليمين (تم تغيير السهم أيضاً ليتجه لليمين)
+# 5. عرض زر Next الموجه لليمين
 if st.button("Next ➡️"):
     pass
