@@ -10,7 +10,7 @@ def get_base64_file(file_path):
         data = f.read()
     return base64.b64encode(data).decode()
 
-# قراءة ملفاتك المحلية المرفوعة (تأكد أن الأسماء مطابقة تماماً لصورتك)
+# قراءة ملفاتك المحلية المرفوعة
 try:
     video_base64 = get_base64_file("butterflies.mp4.MP4")
     img_base64 = get_base64_file("my-project.png")
@@ -19,7 +19,7 @@ except FileNotFoundError as e:
     video_base64 = ""
     img_base64 = ""
 
-# 2. كود التنسيق المزدوج + تحريك الزر ليسار حافة الصورة
+# CSS
 st.markdown("""
     <style>
     /* جعل طبقات ستريمليت شفافة لتظهر الخلفية الخارجية */
@@ -32,7 +32,7 @@ st.markdown("""
         padding-bottom: 1rem !important;
     }
     
-    /* 1. فيديو الخلفية الخارجية (خارج إطار الصورة) */
+    /* فيديو الخلفية الخارجية */
     .background-video {
         position: fixed;
         right: 0;
@@ -46,7 +46,7 @@ st.markdown("""
         opacity: 0.65;
     }
     
-    /* حاوية العرض الخاصة بالصورة والفيديو الداخلي */
+    /* حاوية الصورة */
     .showcase-container {
         position: relative;
         width: 100%;
@@ -58,7 +58,7 @@ st.markdown("""
         z-index: 10;
     }
     
-    /* 2. فيديو الخلفية الداخلية (يتحرك داخل تفاصيل الصورة) */
+    /* الفيديو داخل الصورة */
     .showcase-container video {
         position: absolute;
         top: 0;
@@ -69,7 +69,7 @@ st.markdown("""
         z-index: 1;
     }
     
-    /* دمج تفاصيل صورتك الوردية مع الفيديو الداخلي */
+    /* الصورة */
     .showcase-container img {
         position: relative;
         display: block;
@@ -79,7 +79,13 @@ st.markdown("""
         mix-blend-mode: multiply;
     }
 
-    /* تنسيق زر Next الوردي ليكون على جهة اليسار تلقائياً */
+    /* جعل الزر بأقصى اليمين */
+    div.stButton {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+    }
+
     div.stButton > button:first-child {
         background-color: #E91E63;
         color: white;
@@ -92,9 +98,8 @@ st.markdown("""
         transition: 0.3s;
         position: relative;
         z-index: 10;
-        display: block;
-        margin: 0 0 0 auto; /* هذا السطر السحري يدفع الزر لأقصى اليمين تماماً */
     }
+
     div.stButton > button:first-child:hover {
         background-color: #C2185B;
         color: white;
@@ -104,14 +109,14 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# 3. تشغيل فيديو الفراشات في الخلفية الكاملة للموقع (خارج الصورة)
+# فيديو الخلفية
 st.markdown(f"""
 <video autoplay loop muted playsinline class="background-video">
     <source src="data:video/mp4;base64,{video_base64}" type="video/mp4">
 </video>
 """, unsafe_allow_html=True)
 
-# 4. تشغيل الفيديو ودمجه داخل إطار صورتك my-project.png
+# الصورة مع الفيديو داخلها
 st.markdown(f"""
 <div class="showcase-container">
     <video autoplay loop muted playsinline>
@@ -121,6 +126,6 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-# 5. عرض زر Next المطور والمحاذي لليسار
+# زر Next
 if st.button("⬅️ Next"):
     pass
